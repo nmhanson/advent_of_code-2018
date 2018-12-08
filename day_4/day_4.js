@@ -51,8 +51,18 @@ fs.readFile('day4input', 'utf8', (err,contents) => {
 
     let maxSleep = 0;
     let sleepyBoi = null;
+    let mostSleptOnMinute = null;
+    let mostSleptOnMinuteCount = 0;
+    let consistentSleeper = null;
 
     for (let g in guards) {
+        for(let min in guards[g]) {
+            if (min != 'total' && mostSleptOnMinuteCount < guards[g][min]) {
+                mostSleptOnMinute = min;
+                mostSleptOnMinuteCount = guards[g][min];
+                consistentSleeper = g;
+            }
+        }
         if (guards[g].total > maxSleep) {
             maxSleep = guards[g].total;
             sleepyBoi = g;
@@ -69,4 +79,8 @@ fs.readFile('day4input', 'utf8', (err,contents) => {
     }
     console.log('Sleepiest boi is ' + sleepyBoi + ' who slept most at minute #' + maxMinNum);
     console.log('part one answer is ' + (sleepyBoi * maxMinNum));
+
+    console.log('Most consistent sleeper is ' + consistentSleeper + ' who slept on minute #' +
+            mostSleptOnMinute + ' ' + mostSleptOnMinuteCount + ' times');
+    console.log('part two answer is ' + (consistentSleeper * mostSleptOnMinute));
 });
